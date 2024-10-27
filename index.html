@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RPG de Programador</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>RPG de Programador</h1>
+
+        <!-- Estatísticas do Programador -->
+        <section class="stats">
+            <h2>Estatísticas</h2>
+            <div class="stat">
+                <span class="stat-label">Nível:</span>
+                <span class="stat-value" id="level">1</span>
+            </div>
+            <div class="stat">
+                <span class="stat-label">Experiência:</span>
+                <span class="stat-value" id="experience">0</span>
+            </div>
+            <div class="stat">
+                <span class="stat-label">Habilidades:</span>
+                <span class="stat-value" id="skills">0</span>
+            </div>
+        </section>
+
+        <!-- Formulário para adicionar novos desafios -->
+        <section class="add-challenge">
+            <h2>Adicionar Novo Desafio</h2>
+            <label for="challengeDescription">Descrição do Desafio:</label>
+            <input type="text" id="challengeDescription" placeholder="Descreva o desafio aqui" />
+            <button type="button" id="addChallengeBtn">Adicionar Desafio</button>
+            <p id="challengeMessage">Nenhum desafio adicionado.</p>
+        </section>
+
+        <!-- Área para exibir os desafios adicionados -->
+        <section class="display-challenges">
+            <h2>Desafios Adicionados</h2>
+            <ul id="challengesList">
+                <!-- Os desafios aparecerão aqui -->
+            </ul>
+        </section>
+
+        <!-- Formulário para adicionar aprendizados -->
+        <section class="add-learning">
+            <h2>Adicionar Aprendizado</h2>
+            <label for="learningDescription">Descrição do Aprendizado:</label>
+            <input type="text" id="learningDescription" placeholder="Descreva seu aprendizado aqui" />
+            <button type="button" id="addLearningBtn">Adicionar Aprendizado</button>
+            <p id="learningMessage">Nenhum aprendizado adicionado.</p>
+        </section>
+
+        <!-- Área para exibir os aprendizados adicionados -->
+        <section class="display-learnings">
+            <h2>Aprendizados Adicionados</h2>
+            <ul id="learningsList">
+                <!-- Os aprendizados aparecerão aqui -->
+            </ul>
+        </section>
+
+        <!-- Alerta estilizado para subir de nível -->
+        <div class="alert-container" id="alert-container">
+            <span id="alert-message"></span>
+            <button id="close-btn">&times;</button>
+        </div>
+
+    </div>
+
+    <script src="scripts.js"></script>
+</body>
+</html>
