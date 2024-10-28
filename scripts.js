@@ -1,3 +1,19 @@
+// Configuração do Firebase usando o SDK via CDN
+const firebaseConfig = {
+  apiKey: "AIzaSyAG6AFYS3R7Pyt38gWm5YUI5wrap22RaWE",
+  authDomain: "progamador-rpg.firebaseapp.com",
+  databaseURL: "https://progamador-rpg-default-rtdb.firebaseio.com",
+  projectId: "progamador-rpg",
+  storageBucket: "progamador-rpg.appspot.com",
+  messagingSenderId: "602645466093",
+  appId: "1:602645466093:web:e69e915c21ae0ab54035e4",
+  measurementId: "G-SK0T06SN25"
+};
+
+// Inicializa o Firebase
+const app = firebase.initializeApp(firebaseConfig);
+const database = firebase.database();
+
 document.addEventListener("DOMContentLoaded", function () {
     const addChallengeBtn = document.getElementById("addChallengeBtn");
     const challengesList = document.getElementById("challengesList");
@@ -7,15 +23,13 @@ document.addEventListener("DOMContentLoaded", function () {
     const learningsList = document.getElementById("learningsList");
     const learningMessage = document.getElementById("learningMessage");
 
-    let challenges = JSON.parse(localStorage.getItem('challenges')) || [];
-    let learnings = JSON.parse(localStorage.getItem('learnings')) || [];
-    let experience = parseInt(localStorage.getItem('experience')) || 0;
-    let level = parseInt(localStorage.getItem('level')) || 1;
+    let challenges = [];
+    let learnings = [];
+    let experience = 0;
+    let level = 1;
 
-    // Atualizar a interface inicial
-    updateChallengesDisplay();
-    updateLearningsDisplay();
-    updateExperienceAndLevel();
+    // Carrega dados do Firebase ao iniciar a página
+    loadData();
 
     // Adicionar Desafio
     addChallengeBtn.addEventListener("click", function () {
@@ -27,7 +41,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         challenges.push({ description: description, completed: false });
         document.getElementById("challengeDescription").value = ''; // Limpa o campo de descrição
-        saveData(); // Salva os dados no localStorage
+        saveData(); // Salva os dados no Firebase
         updateChallengesDisplay();
     });
 
@@ -67,19 +81,15 @@ document.addEventListener("DOMContentLoaded", function () {
     function markChallengeAsCompleted(index, challengeElement, completeBtn) {
         if (!challenges[index].completed) {
             challenges[index].completed = true;
-
-            // Remove o botão "Concluir"
             challengeElement.removeChild(completeBtn);
 
-            // Adiciona a mensagem de conclusão
             const completedMessage = document.createElement("span");
             completedMessage.textContent = " - Desafio concluído!";
             completedMessage.style.color = "green";
             challengeElement.appendChild(completedMessage);
 
-            // Ganha XP ao concluir um desafio
-            gainExperience(20); // Por exemplo, 20 pontos de XP ao concluir um desafio
-            saveData(); // Salva os dados no localStorage
+            gainExperience(20); // Ganha XP ao concluir um desafio
+            saveData(); // Salva os dados no Firebase
         }
     }
 
@@ -95,7 +105,7 @@ document.addEventListener("DOMContentLoaded", function () {
         document.getElementById("learningDescription").value = ''; // Limpa o campo de descrição
         updateLearningsDisplay();
         gainExperience(10); // Ganha XP ao adicionar um aprendizado
-        saveData(); // Salva os dados no localStorage
+        saveData(); // Salva os dados no Firebase
     });
 
     function updateLearningsDisplay() {
@@ -117,13 +127,12 @@ document.addEventListener("DOMContentLoaded", function () {
     function gainExperience(xp) {
         experience += xp;
         updateExperienceAndLevel();
-        saveData(); // Salva os dados no localStorage
+        saveData(); // Salva os dados no Firebase
     }
 
     function updateExperienceAndLevel() {
         document.getElementById("experience").textContent = experience;
 
-        // Verifica se o nível deve ser aumentado
         while (experience >= level * 100) {
             levelUp();
         }
@@ -134,11 +143,9 @@ document.addEventListener("DOMContentLoaded", function () {
         level++;
         document.getElementById("level").textContent = level;
 
-        // Exibe o alerta estilizado quando o nível aumenta
         showAlert(`Parabéns! Você subiu para o nível ${level}`);
     }
 
-    // Função para exibir a mensagem de alerta estilizada
     function showAlert(message) {
         const alertContainer = document.getElementById('alert-container');
         const alertMessage = document.getElementById('alert-message');
@@ -146,26 +153,42 @@ document.addEventListener("DOMContentLoaded", function () {
         alertMessage.textContent = message;
         alertContainer.classList.add('show');
 
-        // Fecha o alerta automaticamente após 5 segundos
         setTimeout(() => {
             hideAlert();
         }, 5000);
     }
 
-    // Função para esconder o alerta
     function hideAlert() {
         const alertContainer = document.getElementById('alert-container');
         alertContainer.classList.remove('show');
     }
 
-    // Evento para fechar o alerta ao clicar no botão "X"
     document.getElementById('close-btn').addEventListener('click', hideAlert);
 
-    // Salvar dados no localStorage
+    // Função para salvar dados no Firebase
     function saveData() {
-        localStorage.setItem('challenges', JSON.stringify(challenges));
-        localStorage.setItem('learnings', JSON.stringify(learnings));
-        localStorage.setItem('experience', experience.toString());
-        localStorage.setItem('level', level.toString());
+        firebase.database().ref('userData').set({
+            challenges: challenges,
+            learnings: learnings,
+            experience: experience,
+            level: level
+        });
+    }
+
+    // Função para carregar dados do Firebase
+    function loadData() {
+        firebase.database().ref('userData').get().then((snapshot) => {
+            if (snapshot.exists()) {
+                const data = snapshot.val();
+                challenges = data.challenges || [];
+                learnings = data.learnings || [];
+                experience = data.experience || 0;
+                level = data.level || 1;
+
+                updateChallengesDisplay();
+                updateLearningsDisplay();
+                updateExperienceAndLevel();
+            }
+        });
     }
 });
