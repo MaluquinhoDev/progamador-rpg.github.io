@@ -1,17 +1,16 @@
-// Configuração do Firebase usando o SDK via CDN
+// Configuração do Firebase usando o SDK compatível com HTML padrão
 const firebaseConfig = {
-  apiKey: "AIzaSyAG6AFYS3R7Pyt38gWm5YUI5wrap22RaWE",
-  authDomain: "progamador-rpg.firebaseapp.com",
-  databaseURL: "https://progamador-rpg-default-rtdb.firebaseio.com",
-  projectId: "progamador-rpg",
-  storageBucket: "progamador-rpg.appspot.com",
-  messagingSenderId: "602645466093",
-  appId: "1:602645466093:web:e69e915c21ae0ab54035e4",
-  measurementId: "G-SK0T06SN25"
+  apiKey: "YOUR_API_KEY",
+  authDomain: "YOUR_AUTH_DOMAIN",
+  databaseURL: "YOUR_DATABASE_URL",
+  projectId: "YOUR_PROJECT_ID",
+  storageBucket: "YOUR_STORAGE_BUCKET",
+  messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+  appId: "YOUR_APP_ID"
 };
 
 // Inicializa o Firebase
-const app = firebase.initializeApp(firebaseConfig);
+firebase.initializeApp(firebaseConfig);
 const database = firebase.database();
 
 document.addEventListener("DOMContentLoaded", function () {
