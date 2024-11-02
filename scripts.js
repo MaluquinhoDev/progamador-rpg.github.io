@@ -1,12 +1,12 @@
 // Configuração do Firebase usando o SDK compatível com HTML padrão
 const firebaseConfig = {
-  apiKey: "YOUR_API_KEY",
-  authDomain: "YOUR_AUTH_DOMAIN",
-  databaseURL: "YOUR_DATABASE_URL",
-  projectId: "YOUR_PROJECT_ID",
-  storageBucket: "YOUR_STORAGE_BUCKET",
-  messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
-  appId: "YOUR_APP_ID"
+  apiKey: "AIzaSyBhhS89kDMjrN-m4GqK2n1cXWyekw86-m4",
+  authDomain: "dev-rpg-cf6a2.firebaseapp.com",
+  databaseURL: "https://dev-rpg-cf6a2-default-rtdb.firebaseio.com", // URL correta do Realtime Database
+  projectId: "dev-rpg-cf6a2",
+  storageBucket: "dev-rpg-cf6a2.appspot.com",
+  messagingSenderId: "5816364523",
+  appId: "1:5816364523:web:fce8fb68fecbaa2177fdae"
 };
 
 // Inicializa o Firebase
@@ -166,7 +166,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Função para salvar dados no Firebase
     function saveData() {
-        firebase.database().ref('userData').set({
+        database.ref('userData').set({
             challenges: challenges,
             learnings: learnings,
             experience: experience,
@@ -176,7 +176,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Função para carregar dados do Firebase
     function loadData() {
-        firebase.database().ref('userData').get().then((snapshot) => {
+        database.ref('userData').get().then((snapshot) => {
             if (snapshot.exists()) {
                 const data = snapshot.val();
                 challenges = data.challenges || [];
