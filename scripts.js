@@ -1,12 +1,13 @@
 // Configuração do Firebase usando o SDK compatível com HTML padrão
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
   apiKey: "AIzaSyBhhS89kDMjrN-m4GqK2n1cXWyekw86-m4",
   authDomain: "dev-rpg-cf6a2.firebaseapp.com",
-  databaseURL: "https://dev-rpg-cf6a2-default-rtdb.firebaseio.com", // URL correta do Realtime Database
   projectId: "dev-rpg-cf6a2",
-  storageBucket: "dev-rpg-cf6a2.appspot.com",
+  storageBucket: "dev-rpg-cf6a2.firebasestorage.app",
   messagingSenderId: "5816364523",
-  appId: "1:5816364523:web:fce8fb68fecbaa2177fdae"
+  appId: "1:5816364523:web:fce8fb68fecbaa2177fdae",
+  measurementId: "G-5ZR7SV9357"
 };
 
 // Inicializa o Firebase
