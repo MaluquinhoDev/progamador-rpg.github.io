@@ -3,40 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Desafios e Aprendizados</title>
+    <title>RPG de Programador</title>
     <link rel="stylesheet" href="styles.css">
+
+    <!-- Firebase App e Database SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
 </head>
 <body>
+    <!-- Seu conteúdo HTML -->
     <div class="container">
-        <h1>Desafios e Aprendizados</h1>
+        <h1>RPG de Programador</h1>
 
-        <!-- Área para Adicionar Desafios -->
-        <div class="add-challenge">
-            <h2>Adicionar Desafio</h2>
-            <input type="text" id="challengeDescription" placeholder="Descreva o desafio">
-            <button id="addChallengeBtn">Adicionar Desafio</button>
-        </div>
+        <!-- Estatísticas do Programador -->
+        <section class="stats">
+            <h2>Estatísticas</h2>
+            <div class="stat">
+                <span class="stat-label">Nível:</span>
+                <span class="stat-value" id="level">1</span>
+            </div>
+            <div class="stat">
+                <span class="stat-label">Experiência:</span>
+                <span class="stat-value" id="experience">0</span>
+            </div>
+            <div class="stat">
+                <span class="stat-label">Habilidades:</span>
+                <span class="stat-value" id="skills">0</span>
+            </div>
+        </section>
 
-        <!-- Área para Exibir Desafios -->
-        <div class="display-challenges">
-            <h2>Desafios</h2>
-            <ul id="challengesList"></ul>
-        </div>
-
-        <!-- Área para Adicionar Aprendizados -->
-        <div class="add-learning">
-            <h2>Adicionar Aprendizado</h2>
-            <input type="text" id="learningDescription" placeholder="Descreva o aprendizado">
-            <button id="addLearningBtn">Adicionar Aprendizado</button>
-        </div>
-
-        <!-- Área para Exibir Aprendizados -->
-        <div class="display-learnings">
-            <h2>Aprendizados</h2>
-            <ul id="learningsList"></ul>
-        </div>
+        <!-- Scripts -->
+        <script src="script.js"></script>
     </div>
-
-    <script src="script.js"></script>
 </body>
 </html>
