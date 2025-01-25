@@ -1,70 +1,42 @@
-// Função para alternar entre mostrar e ocultar o texto
-function toggleText(textId) {
-    const textElement = document.getElementById(textId);
-    const button = textElement.nextElementSibling;
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Desafios e Aprendizados</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Desafios e Aprendizados</h1>
 
-    // Verifica se o texto está visível ou oculto
-    if (textElement.style.maxHeight === "none") {
-        // Se o texto estiver expandido, minimiza
-        textElement.style.maxHeight = "80px";
-        textElement.style.webkitLineClamp = "3";
-        button.textContent = "Mostrar mais"; // Troca o texto do botão
-    } else {
-        // Se o texto estiver minimizado, expande
-        textElement.style.maxHeight = "none";
-        textElement.style.webkitLineClamp = "unset";
-        button.textContent = "Mostrar menos"; // Troca o texto do botão
-    }
-}
+        <!-- Área para Adicionar Desafios -->
+        <div class="add-challenge">
+            <h2>Adicionar Desafio</h2>
+            <input type="text" id="challengeDescription" placeholder="Descreva o desafio">
+            <button id="addChallengeBtn">Adicionar Desafio</button>
+        </div>
 
-// Função para adicionar desafios com o botão "Mostrar mais"
-document.getElementById('addChallengeBtn').addEventListener('click', function () {
-    const description = document.getElementById("challengeDescription").value;
-    if (description.trim() !== "") {
-        const challengesList = document.getElementById("challengesList");
-        const newChallengeItem = document.createElement("li");
+        <!-- Área para Exibir Desafios -->
+        <div class="display-challenges">
+            <h2>Desafios</h2>
+            <ul id="challengesList"></ul>
+        </div>
 
-        const newText = document.createElement("p");
-        newText.classList.add("text");
-        newText.id = `challenge-text-${challengesList.children.length + 1}`;
-        newText.textContent = description;
-        newChallengeItem.appendChild(newText);
+        <!-- Área para Adicionar Aprendizados -->
+        <div class="add-learning">
+            <h2>Adicionar Aprendizado</h2>
+            <input type="text" id="learningDescription" placeholder="Descreva o aprendizado">
+            <button id="addLearningBtn">Adicionar Aprendizado</button>
+        </div>
 
-        const toggleBtn = document.createElement("button");
-        toggleBtn.classList.add("toggle-btn");
-        toggleBtn.textContent = "Mostrar mais";
-        toggleBtn.onclick = function () {
-            toggleText(newText.id);
-        };
-        newChallengeItem.appendChild(toggleBtn);
+        <!-- Área para Exibir Aprendizados -->
+        <div class="display-learnings">
+            <h2>Aprendizados</h2>
+            <ul id="learningsList"></ul>
+        </div>
+    </div>
 
-        challengesList.appendChild(newChallengeItem);
-        document.getElementById("challengeDescription").value = ''; // Limpa o campo
-    }
-});
-
-// Função para adicionar aprendizados com o botão "Mostrar mais"
-document.getElementById('addLearningBtn').addEventListener('click', function () {
-    const description = document.getElementById("learningDescription").value;
-    if (description.trim() !== "") {
-        const learningsList = document.getElementById("learningsList");
-        const newLearningItem = document.createElement("li");
-
-        const newText = document.createElement("p");
-        newText.classList.add("text");
-        newText.id = `learning-text-${learningsList.children.length + 1}`;
-        newText.textContent = description;
-        newLearningItem.appendChild(newText);
-
-        const toggleBtn = document.createElement("button");
-        toggleBtn.classList.add("toggle-btn");
-        toggleBtn.textContent = "Mostrar mais";
-        toggleBtn.onclick = function () {
-            toggleText(newText.id);
-        };
-        newLearningItem.appendChild(toggleBtn);
-
-        learningsList.appendChild(newLearningItem);
-        document.getElementById("learningDescription").value = ''; // Limpa o campo
-    }
-});
+    <script src="script.js"></script>
+</body>
+</html>
