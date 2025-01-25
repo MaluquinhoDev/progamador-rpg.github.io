@@ -15,8 +15,30 @@ document.addEventListener("DOMContentLoaded", function () {
     // Verifique se todos os elementos necessários existem antes de continuar
     if (!addChallengeBtn || !challengesList || !challengeMessage || !addLearningBtn || !learningsList || !learningMessage) {
         console.error("Erro: Algum dos elementos do DOM não foi encontrado.");
+        if (!addChallengeBtn) console.error("Elemento 'addChallengeBtn' não encontrado.");
+        if (!challengesList) console.error("Elemento 'challengesList' não encontrado.");
+        if (!challengeMessage) console.error("Elemento 'challengeMessage' não encontrado.");
+        if (!addLearningBtn) console.error("Elemento 'addLearningBtn' não encontrado.");
+        if (!learningsList) console.error("Elemento 'learningsList' não encontrado.");
+        if (!learningMessage) console.error("Elemento 'learningMessage' não encontrado.");
         return; // Sai da função se algum dos elementos não for encontrado
     }
+
+    // Configuração do Firebase usando o SDK compatível com HTML padrão
+    const firebaseConfig = {
+        apiKey: "sua-apiKey",
+        authDomain: "seu-authDomain",
+        databaseURL: "https://seu-database.firebaseio.com",
+        projectId: "seu-projectId",
+        storageBucket: "seu-storageBucket",
+        messagingSenderId: "seu-senderId",
+        appId: "seu-appId",
+        measurementId: "seu-measurementId"
+    };
+
+    // Inicializa o Firebase
+    firebase.initializeApp(firebaseConfig);
+    const database = firebase.database();
 
     // Carrega dados do Firebase ao iniciar a página
     loadData();
@@ -194,7 +216,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const alertMessage = document.getElementById('alert-message');
 
         alertMessage.textContent = message;
-        alertContainer.classList.add('show');
+        alertContainer.style.display = 'block';
 
         setTimeout(() => {
             hideAlert();
@@ -203,7 +225,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function hideAlert() {
         const alertContainer = document.getElementById('alert-container');
-        alertContainer.classList.remove('show');
+        alertContainer.style.display = 'none';
     }
 
     document.getElementById('close-btn').addEventListener('click', hideAlert);
