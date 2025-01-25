@@ -1,3 +1,23 @@
+// Importando as funções necessárias do SDK do Firebase
+import { initializeApp } from "firebase/app";
+import { getDatabase, ref, set, get } from "firebase/database";
+
+// Configuração do Firebase com as credenciais do seu projeto
+const firebaseConfig = {
+  apiKey: "AIzaSyBhhS89kDMjrN-m4GqK2n1cXWyekw86-m4",
+  authDomain: "dev-rpg-cf6a2.firebaseapp.com",
+  databaseURL: "https://dev-rpg-cf6a2-default-rtdb.firebaseio.com",
+  projectId: "dev-rpg-cf6a2",
+  storageBucket: "dev-rpg-cf6a2.firebasestorage.app",
+  messagingSenderId: "5816364523",
+  appId: "1:5816364523:web:fce8fb68fecbaa2177fdae",
+  measurementId: "G-5ZR7SV9357"
+};
+
+// Inicializa o Firebase com a configuração
+const app = initializeApp(firebaseConfig);
+const database = getDatabase(app);
+
 document.addEventListener("DOMContentLoaded", function () {
     const addChallengeBtn = document.getElementById("addChallengeBtn");
     const challengesList = document.getElementById("challengesList");
@@ -23,22 +43,6 @@ document.addEventListener("DOMContentLoaded", function () {
         if (!learningMessage) console.error("Elemento 'learningMessage' não encontrado.");
         return; // Sai da função se algum dos elementos não for encontrado
     }
-
-    // Configuração do Firebase usando o SDK compatível com HTML padrão
-    const firebaseConfig = {
-        apiKey: "sua-apiKey",
-        authDomain: "seu-authDomain",
-        databaseURL: "https://seu-database.firebaseio.com",
-        projectId: "seu-projectId",
-        storageBucket: "seu-storageBucket",
-        messagingSenderId: "seu-senderId",
-        appId: "seu-appId",
-        measurementId: "seu-measurementId"
-    };
-
-    // Inicializa o Firebase
-    firebase.initializeApp(firebaseConfig);
-    const database = firebase.database();
 
     // Carrega dados do Firebase ao iniciar a página
     loadData();
@@ -232,7 +236,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Função para salvar dados no Firebase
     function saveData() {
-        database.ref('userData').set({
+        set(ref(database, 'userData'), {
             challenges: challenges,
             learnings: learnings,
             experience: experience,
@@ -242,7 +246,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Função para carregar dados do Firebase
     function loadData() {
-        database.ref('userData').get().then((snapshot) => {
+        const dataRef = ref(database, 'userData');
+        get(dataRef).then((snapshot) => {
             if (snapshot.exists()) {
                 const data = snapshot.val();
                 challenges = data.challenges || [];
