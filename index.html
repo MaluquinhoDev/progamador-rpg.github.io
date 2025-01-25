@@ -1,77 +1,70 @@
-<!DOCTYPE html>
-<html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>RPG de Programador</title>
-    <link rel="stylesheet" href="styles.css">
+// Função para alternar entre mostrar e ocultar o texto
+function toggleText(textId) {
+    const textElement = document.getElementById(textId);
+    const button = textElement.nextElementSibling;
 
-    <!-- Firebase App e Database SDKs compatíveis com HTML padrão -->
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
-</head>
-<body>
-    <div class="container">
-        <h1>RPG de Programador</h1>
+    // Verifica se o texto está visível ou oculto
+    if (textElement.style.maxHeight === "none") {
+        // Se o texto estiver expandido, minimiza
+        textElement.style.maxHeight = "80px";
+        textElement.style.webkitLineClamp = "3";
+        button.textContent = "Mostrar mais"; // Troca o texto do botão
+    } else {
+        // Se o texto estiver minimizado, expande
+        textElement.style.maxHeight = "none";
+        textElement.style.webkitLineClamp = "unset";
+        button.textContent = "Mostrar menos"; // Troca o texto do botão
+    }
+}
 
-        <!-- Estatísticas do Programador -->
-        <section class="stats">
-            <h2>Estatísticas</h2>
-            <div class="stat">
-                <span class="stat-label">Nível:</span>
-                <span class="stat-value" id="level">1</span>
-            </div>
-            <div class="stat">
-                <span class="stat-label">Experiência:</span>
-                <span class="stat-value" id="experience">0</span>
-            </div>
-            <div class="stat">
-                <span class="stat-label">Habilidades:</span>
-                <span class="stat-value" id="skills">0</span>
-            </div>
-        </section>
+// Função para adicionar desafios com o botão "Mostrar mais"
+document.getElementById('addChallengeBtn').addEventListener('click', function () {
+    const description = document.getElementById("challengeDescription").value;
+    if (description.trim() !== "") {
+        const challengesList = document.getElementById("challengesList");
+        const newChallengeItem = document.createElement("li");
 
-        <!-- Formulário para adicionar novos desafios -->
-        <section class="add-challenge">
-            <h2>Adicionar Novo Desafio</h2>
-            <label for="challengeDescription">Descrição do Desafio:</label>
-            <input type="text" id="challengeDescription" placeholder="Descreva o desafio aqui" />
-            <button type="button" id="addChallengeBtn">Adicionar Desafio</button>
-            <p id="challengeMessage">Nenhum desafio adicionado.</p>
-        </section>
+        const newText = document.createElement("p");
+        newText.classList.add("text");
+        newText.id = `challenge-text-${challengesList.children.length + 1}`;
+        newText.textContent = description;
+        newChallengeItem.appendChild(newText);
 
-        <!-- Área para exibir os desafios adicionados -->
-        <section class="display-challenges">
-            <h2>Desafios Adicionados</h2>
-            <ul id="challengesList">
-                <!-- Os desafios aparecerão aqui -->
-            </ul>
-        </section>
+        const toggleBtn = document.createElement("button");
+        toggleBtn.classList.add("toggle-btn");
+        toggleBtn.textContent = "Mostrar mais";
+        toggleBtn.onclick = function () {
+            toggleText(newText.id);
+        };
+        newChallengeItem.appendChild(toggleBtn);
 
-        <!-- Formulário para adicionar aprendizados -->
-        <section class="add-learning">
-            <h2>Adicionar Aprendizado</h2>
-            <label for="learningDescription">Descrição do Aprendizado:</label>
-            <input type="text" id="learningDescription" placeholder="Descreva seu aprendizado aqui" />
-            <button type="button" id="addLearningBtn">Adicionar Aprendizado</button>
-            <p id="learningMessage">Nenhum aprendizado adicionado.</p>
-        </section>
+        challengesList.appendChild(newChallengeItem);
+        document.getElementById("challengeDescription").value = ''; // Limpa o campo
+    }
+});
 
-        <!-- Área para exibir os aprendizados adicionados -->
-        <section class="display-learnings">
-            <h2>Aprendizados Adicionados</h2>
-            <ul id="learningsList">
-                <!-- Os aprendizados aparecerão aqui -->
-            </ul>
-        </section>
+// Função para adicionar aprendizados com o botão "Mostrar mais"
+document.getElementById('addLearningBtn').addEventListener('click', function () {
+    const description = document.getElementById("learningDescription").value;
+    if (description.trim() !== "") {
+        const learningsList = document.getElementById("learningsList");
+        const newLearningItem = document.createElement("li");
 
-        <!-- Alerta estilizado para subir de nível -->
-        <div class="alert-container" id="alert-container">
-            <span id="alert-message"></span>
-            <button id="close-btn">&times;</button>
-        </div>
-    </div>
+        const newText = document.createElement("p");
+        newText.classList.add("text");
+        newText.id = `learning-text-${learningsList.children.length + 1}`;
+        newText.textContent = description;
+        newLearningItem.appendChild(newText);
 
-    <script src="scripts.js"></script>
-</body>
-</html>
+        const toggleBtn = document.createElement("button");
+        toggleBtn.classList.add("toggle-btn");
+        toggleBtn.textContent = "Mostrar mais";
+        toggleBtn.onclick = function () {
+            toggleText(newText.id);
+        };
+        newLearningItem.appendChild(toggleBtn);
+
+        learningsList.appendChild(newLearningItem);
+        document.getElementById("learningDescription").value = ''; // Limpa o campo
+    }
+});
