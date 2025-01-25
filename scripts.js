@@ -1,6 +1,4 @@
 // Configuração do Firebase usando o SDK compatível com HTML padrão
-// For Firebase JS SDK v7.20.0 and later, measurementId is optional
-// Configuração do Firebase usando o SDK compatível com HTML padrão
 const firebaseConfig = {
     apiKey: "sua-apiKey",
     authDomain: "seu-authDomain",
@@ -11,8 +9,6 @@ const firebaseConfig = {
     appId: "1:5816364523:web:fce8fb68fecbaa2177fdae",
     measurementId: "G-5ZR7SV9357"
 };
-
-
 
 // Inicializa o Firebase
 firebase.initializeApp(firebaseConfig);
@@ -58,7 +54,22 @@ document.addEventListener("DOMContentLoaded", function () {
             challengeMessage.textContent = "";
             challenges.forEach(function (challenge, index) {
                 const newChallenge = document.createElement("li");
-                newChallenge.textContent = challenge.description;
+
+                // Cria o contêiner de texto com a funcionalidade de mostrar/ocultar
+                const newText = document.createElement("p");
+                newText.classList.add("text");
+                newText.id = `challenge-text-${index}`;
+                newText.textContent = challenge.description;
+                newChallenge.appendChild(newText);
+
+                const toggleBtn = document.createElement("button");
+                toggleBtn.classList.add("toggle-btn");
+                toggleBtn.textContent = "Mostrar mais";
+                toggleBtn.onclick = function () {
+                    toggleText(newText.id, toggleBtn);
+                };
+
+                newChallenge.appendChild(toggleBtn);
 
                 if (!challenge.completed) {
                     // Botão para marcar o desafio como concluído
@@ -119,11 +130,44 @@ document.addEventListener("DOMContentLoaded", function () {
             learningMessage.textContent = "Nenhum aprendizado adicionado.";
         } else {
             learningMessage.textContent = "";
-            learnings.forEach(function (learning) {
+            learnings.forEach(function (learning, index) {
                 const newLearning = document.createElement("li");
-                newLearning.textContent = learning;
+
+                // Cria o contêiner de texto com a funcionalidade de mostrar/ocultar
+                const newText = document.createElement("p");
+                newText.classList.add("text");
+                newText.id = `learning-text-${index}`;
+                newText.textContent = learning;
+                newLearning.appendChild(newText);
+
+                const toggleBtn = document.createElement("button");
+                toggleBtn.classList.add("toggle-btn");
+                toggleBtn.textContent = "Mostrar mais";
+                toggleBtn.onclick = function () {
+                    toggleText(newText.id, toggleBtn);
+                };
+
+                newLearning.appendChild(toggleBtn);
+
                 learningsList.appendChild(newLearning);
             });
+        }
+    }
+
+    // Função para alternar entre mostrar e ocultar o texto
+    function toggleText(textId, button) {
+        const textElement = document.getElementById(textId);
+
+        if (textElement.style.maxHeight === "none") {
+            // Se o texto estiver expandido, minimiza
+            textElement.style.maxHeight = "80px";
+            textElement.style.webkitLineClamp = "3";
+            button.textContent = "Mostrar mais";
+        } else {
+            // Se o texto estiver minimizado, expande
+            textElement.style.maxHeight = "none";
+            textElement.style.webkitLineClamp = "unset";
+            button.textContent = "Mostrar menos";
         }
     }
 
