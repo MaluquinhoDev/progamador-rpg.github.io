@@ -79,6 +79,11 @@ li {
     margin: 5px 0;
     padding: 10px;
     border-radius: 5px;
+    overflow: hidden; /* Garante que o conteúdo não ultrapasse os limites da caixa */
+    max-height: 120px; /* Define uma altura máxima para o item */
+    position: relative;
+    display: flex;
+    flex-direction: column;
 }
 
 /* Texto limitado */
