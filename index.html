@@ -8,9 +8,8 @@
 
     <!-- Incluindo o Firebase SDK v9 com módulos ES6 -->
     <script type="module">
-        // Importar os módulos necessários do Firebase
         import { initializeApp } from "https://www.gstatic.com/firebasejs/9.1.0/firebase-app.js";
-        import { getDatabase } from "https://www.gstatic.com/firebasejs/9.1.0/firebase-database.js";
+        import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/9.1.0/firebase-database.js";
 
         // Configuração do Firebase
         const firebaseConfig = {
@@ -28,7 +27,15 @@
         const app = initializeApp(firebaseConfig);
         const database = getDatabase(app);
 
-        // Aqui você pode colocar o código para manipulação do Firebase (exemplo de salvar e carregar dados)
+        // Atualizar estatísticas no Firebase
+        function saveData(level, experience) {
+            set(ref(database, 'playerStats'), {
+                level: level,
+                experience: experience
+            });
+        }
+
+        // Aqui você pode adicionar a lógica para adicionar aprendizados ou atualizar o estado do jogo
     </script>
 </head>
 <body>
@@ -62,7 +69,6 @@
         </section>
     </div>
 
-    <!-- Incluindo o seu script para funcionalidades do sistema -->
     <script type="module" src="script.js"></script>
 </body>
 </html>
