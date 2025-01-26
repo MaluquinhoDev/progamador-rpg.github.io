@@ -27,7 +27,7 @@ h1, h2 {
 }
 
 /* Seções */
-.stats, .add-challenge, .display-challenges, .add-learning, .display-learnings {
+.stats, .challenges, .learnings {
     margin-bottom: 30px;
     padding: 10px;
     border: 1px solid #ecf0f1;
@@ -146,4 +146,40 @@ li {
     color: #721c24;
     cursor: pointer;
     float: right;
+}
+
+/* Estilo específico para os desafios */
+li.challenge {
+    background-color: #f39c12; /* Cor amarela para destacar os desafios */
+}
+
+li.challenge button {
+    background-color: #f1c40f;
+}
+
+li.challenge button:hover {
+    background-color: #e67e22;
+}
+
+li.challenge span {
+    font-weight: bold;
+    color: green;
+}
+
+/* Estilo específico para os aprendizados */
+li.learning {
+    background-color: #2980b9; /* Cor azul para destacar os aprendizados */
+}
+
+li.learning button {
+    background-color: #3498db;
+}
+
+li.learning button:hover {
+    background-color: #2980b9;
+}
+
+li.learning span {
+    font-weight: bold;
+    color: white;
 }
