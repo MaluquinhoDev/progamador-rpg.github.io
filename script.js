@@ -58,6 +58,8 @@ document.addEventListener("DOMContentLoaded", function () {
                 const newText = document.createElement("p");
                 newText.classList.add("text");
                 newText.id = `challenge-text-${index}`;
+                newText.style.maxHeight = "100px"; // Limite de altura inicial
+                newText.style.overflow = "hidden"; // Esconde o excesso
                 newText.textContent = challenge.description;
                 newChallenge.appendChild(newText);
 
@@ -65,7 +67,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 toggleBtn.classList.add("toggle-btn");
                 toggleBtn.textContent = "Mostrar mais";
                 toggleBtn.onclick = function () {
-                    toggleText(newText.id, toggleBtn);
+                    toggleText(newText, toggleBtn);
                 };
 
                 newChallenge.appendChild(toggleBtn);
@@ -133,6 +135,8 @@ document.addEventListener("DOMContentLoaded", function () {
                 const newText = document.createElement("p");
                 newText.classList.add("text");
                 newText.id = `learning-text-${index}`;
+                newText.style.maxHeight = "100px"; // Limite de altura inicial
+                newText.style.overflow = "hidden"; // Esconde o excesso
                 newText.textContent = learning;
                 newLearning.appendChild(newText);
 
@@ -140,7 +144,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 toggleBtn.classList.add("toggle-btn");
                 toggleBtn.textContent = "Mostrar mais";
                 toggleBtn.onclick = function () {
-                    toggleText(newText.id, toggleBtn);
+                    toggleText(newText, toggleBtn);
                 };
 
                 newLearning.appendChild(toggleBtn);
@@ -149,14 +153,15 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
-    function toggleText(textId, button) {
-        const text = document.getElementById(textId);
-        const isHidden = text.style.maxHeight === "100px"; // Tamanho padrão
-        if (isHidden) {
-            text.style.maxHeight = "none";
+    function toggleText(textElement, button) {
+        const isCollapsed = textElement.style.maxHeight === "100px";
+        if (isCollapsed) {
+            textElement.style.maxHeight = "none"; // Expande o texto
+            textElement.style.overflow = "visible";
             button.textContent = "Mostrar menos";
         } else {
-            text.style.maxHeight = "100px"; // Limite de tamanho
+            textElement.style.maxHeight = "100px"; // Retorna ao limite inicial
+            textElement.style.overflow = "hidden";
             button.textContent = "Mostrar mais";
         }
     }
