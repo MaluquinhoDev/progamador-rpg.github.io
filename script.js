@@ -1,16 +1,22 @@
+// Importando funções do Firebase
+import { initializeApp } from "firebase/app";
+import { getDatabase, ref, set, get, child } from "firebase/database";
+
 // Configuração do Firebase
 const firebaseConfig = {
-    apiKey: "SEU_API_KEY",
-    authDomain: "SEU_AUTH_DOMAIN",
-    databaseURL: "SEU_DATABASE_URL",
-    projectId: "SEU_PROJECT_ID",
-    storageBucket: "SEU_STORAGE_BUCKET",
-    messagingSenderId: "SEU_MESSAGING_SENDER_ID",
-    appId: "SEU_APP_ID"
+    apiKey: "AIzaSyBhhS89kDMjrN-m4GqK2n1cXWyekw86-m4",
+    authDomain: "dev-rpg-cf6a2.firebaseapp.com",
+    databaseURL: "https://dev-rpg-cf6a2-default-rtdb.firebaseio.com",
+    projectId: "dev-rpg-cf6a2",
+    storageBucket: "dev-rpg-cf6a2.firebasestorage.app",
+    messagingSenderId: "5816364523",
+    appId: "1:5816364523:web:fce8fb68fecbaa2177fdae",
+    measurementId: "G-5ZR7SV9357"
 };
 
-firebase.initializeApp(firebaseConfig);
-const database = firebase.database();
+// Inicializando Firebase
+const app = initializeApp(firebaseConfig);
+const database = getDatabase(app);
 
 document.addEventListener("DOMContentLoaded", function () {
     const addLearningBtn = document.getElementById("addLearningBtn");
@@ -35,7 +41,7 @@ document.addEventListener("DOMContentLoaded", function () {
         experience += points;
 
         const li = document.createElement("li");
-        
+
         const text = document.createElement("div");
         text.classList.add("text");
         text.textContent = description;
@@ -44,7 +50,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const toggleBtn = document.createElement("button");
         toggleBtn.classList.add("toggle-btn");
         toggleBtn.textContent = "Mostrar mais";
-        
+
         toggleBtn.addEventListener("click", function () {
             if (text.classList.contains("expanded")) {
                 text.classList.remove("expanded");
@@ -75,7 +81,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Salvar dados no Firebase
     function saveData() {
-        database.ref("playerStats").set({
+        set(ref(database, 'playerStats'), {
             level: level,
             experience: experience
         });
