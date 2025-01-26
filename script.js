@@ -1,8 +1,4 @@
-// Importando funções do Firebase
-import { initializeApp } from "firebase/app";
-import { getDatabase, ref, set, get, child } from "firebase/database";
-
-// Configuração do Firebase
+// Configuração do Firebase com as credenciais do seu projeto
 const firebaseConfig = {
     apiKey: "AIzaSyBhhS89kDMjrN-m4GqK2n1cXWyekw86-m4",
     authDomain: "dev-rpg-cf6a2.firebaseapp.com",
@@ -15,8 +11,8 @@ const firebaseConfig = {
 };
 
 // Inicializando Firebase
-const app = initializeApp(firebaseConfig);
-const database = getDatabase(app);
+firebase.initializeApp(firebaseConfig);
+const database = firebase.database();
 
 document.addEventListener("DOMContentLoaded", function () {
     const addLearningBtn = document.getElementById("addLearningBtn");
@@ -81,7 +77,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Salvar dados no Firebase
     function saveData() {
-        set(ref(database, 'playerStats'), {
+        firebase.database().ref('playerStats').set({
             level: level,
             experience: experience
         });
