@@ -1,7 +1,3 @@
-// Importação do Firebase via CDN
-import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js';
-import { getDatabase, ref, set, get } from 'https://www.gstatic.com/firebasejs/9.0.0/firebase-database.js';
-
 // Configuração do Firebase com as credenciais do seu projeto
 const firebaseConfig = {
   apiKey: "AIzaSyBhhS89kDMjrN-m4GqK2n1cXWyekw86-m4",
@@ -14,9 +10,8 @@ const firebaseConfig = {
   measurementId: "G-5ZR7SV9357"
 };
 
-// Inicializa o Firebase
-const app = initializeApp(firebaseConfig);
-const database = getDatabase(app);
+firebase.initializeApp(firebaseConfig);
+const database = firebase.database();
 
 document.addEventListener("DOMContentLoaded", function () {
     const addChallengeBtn = document.getElementById("addChallengeBtn");
@@ -32,19 +27,6 @@ document.addEventListener("DOMContentLoaded", function () {
     let experience = 0;
     let level = 1;
 
-    // Verifique se todos os elementos necessários existem antes de continuar
-    if (!addChallengeBtn || !challengesList || !challengeMessage || !addLearningBtn || !learningsList || !learningMessage) {
-        console.error("Erro: Algum dos elementos do DOM não foi encontrado.");
-        if (!addChallengeBtn) console.error("Elemento 'addChallengeBtn' não encontrado.");
-        if (!challengesList) console.error("Elemento 'challengesList' não encontrado.");
-        if (!challengeMessage) console.error("Elemento 'challengeMessage' não encontrado.");
-        if (!addLearningBtn) console.error("Elemento 'addLearningBtn' não encontrado.");
-        if (!learningsList) console.error("Elemento 'learningsList' não encontrado.");
-        if (!learningMessage) console.error("Elemento 'learningMessage' não encontrado.");
-        return; // Sai da função se algum dos elementos não for encontrado
-    }
-
-    // Carrega dados do Firebase ao iniciar a página
     loadData();
 
     // Adicionar Desafio
@@ -52,19 +34,19 @@ document.addEventListener("DOMContentLoaded", function () {
         const description = document.getElementById("challengeDescription").value;
 
         if (description.trim() === "") {
-            return; // Não faz nada se o campo estiver vazio
+            return;
         }
 
         challenges.push({ description: description, completed: false });
-        document.getElementById("challengeDescription").value = ''; // Limpa o campo de descrição
-        saveData(); // Salva os dados no Firebase
+        document.getElementById("challengeDescription").value = ''; 
+        saveData();
         updateChallengesDisplay();
     });
 
     // Função para atualizar a exibição dos desafios
     function updateChallengesDisplay() {
-        if (!challengesList) return; // Verifica se o challengesList existe
-        challengesList.innerHTML = ''; // Limpa a lista existente
+        if (!challengesList) return;
+        challengesList.innerHTML = '';
 
         if (challenges.length === 0) {
             challengeMessage.textContent = "Nenhum desafio adicionado.";
@@ -73,7 +55,6 @@ document.addEventListener("DOMContentLoaded", function () {
             challenges.forEach(function (challenge, index) {
                 const newChallenge = document.createElement("li");
 
-                // Cria o contêiner de texto com a funcionalidade de mostrar/ocultar
                 const newText = document.createElement("p");
                 newText.classList.add("text");
                 newText.id = `challenge-text-${index}`;
@@ -90,16 +71,13 @@ document.addEventListener("DOMContentLoaded", function () {
                 newChallenge.appendChild(toggleBtn);
 
                 if (!challenge.completed) {
-                    // Botão para marcar o desafio como concluído
                     const completeBtn = document.createElement("button");
                     completeBtn.textContent = "Concluir";
                     completeBtn.addEventListener("click", function () {
                         markChallengeAsCompleted(index, newChallenge, completeBtn);
                     });
-
                     newChallenge.appendChild(completeBtn);
                 } else {
-                    // Se o desafio já estiver concluído, exibe a mensagem
                     const completedMessage = document.createElement("span");
                     completedMessage.textContent = " - Desafio concluído!";
                     completedMessage.style.color = "green";
@@ -111,7 +89,6 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
-    // Função para marcar desafio como concluído
     function markChallengeAsCompleted(index, challengeElement, completeBtn) {
         if (!challenges[index].completed) {
             challenges[index].completed = true;
@@ -122,8 +99,8 @@ document.addEventListener("DOMContentLoaded", function () {
             completedMessage.style.color = "green";
             challengeElement.appendChild(completedMessage);
 
-            gainExperience(20); // Ganha XP ao concluir um desafio
-            saveData(); // Salva os dados no Firebase
+            gainExperience(20);
+            saveData();
         }
     }
 
@@ -132,20 +109,19 @@ document.addEventListener("DOMContentLoaded", function () {
         const description = document.getElementById("learningDescription").value;
 
         if (description.trim() === "") {
-            return; // Não faz nada se o campo estiver vazio
+            return;
         }
 
         learnings.push(description);
-        document.getElementById("learningDescription").value = ''; // Limpa o campo de descrição
+        document.getElementById("learningDescription").value = '';
         updateLearningsDisplay();
-        gainExperience(10); // Ganha XP ao adicionar um aprendizado
-        saveData(); // Salva os dados no Firebase
+        gainExperience(10);
+        saveData();
     });
 
-    // Função para atualizar a exibição dos aprendizados
     function updateLearningsDisplay() {
-        if (!learningsList) return; // Verifica se o learningsList existe
-        learningsList.innerHTML = ''; // Limpa a lista existente
+        if (!learningsList) return;
+        learningsList.innerHTML = '';
 
         if (learnings.length === 0) {
             learningMessage.textContent = "Nenhum aprendizado adicionado.";
@@ -154,7 +130,6 @@ document.addEventListener("DOMContentLoaded", function () {
             learnings.forEach(function (learning, index) {
                 const newLearning = document.createElement("li");
 
-                // Cria o contêiner de texto com a funcionalidade de mostrar/ocultar
                 const newText = document.createElement("p");
                 newText.classList.add("text");
                 newText.id = `learning-text-${index}`;
@@ -169,51 +144,41 @@ document.addEventListener("DOMContentLoaded", function () {
                 };
 
                 newLearning.appendChild(toggleBtn);
-
                 learningsList.appendChild(newLearning);
             });
         }
     }
 
-    // Função para alternar entre mostrar e ocultar o texto
     function toggleText(textId, button) {
-        const textElement = document.getElementById(textId);
-
-        if (textElement.style.maxHeight === "none") {
-            // Se o texto estiver expandido, minimiza
-            textElement.style.maxHeight = "80px";
-            textElement.style.webkitLineClamp = "3";
-            button.textContent = "Mostrar mais";
-        } else {
-            // Se o texto estiver minimizado, expande
-            textElement.style.maxHeight = "none";
-            textElement.style.webkitLineClamp = "unset";
+        const text = document.getElementById(textId);
+        const isHidden = text.style.maxHeight === "100px"; // Tamanho padrão
+        if (isHidden) {
+            text.style.maxHeight = "none";
             button.textContent = "Mostrar menos";
+        } else {
+            text.style.maxHeight = "100px"; // Limite de tamanho
+            button.textContent = "Mostrar mais";
         }
     }
 
-    // Atualiza a experiência e o nível
-    function gainExperience(xp) {
-        experience += xp;
+    function gainExperience(amount) {
+        experience += amount;
         updateLevel();
         updateStats();
     }
 
-    // Atualiza o nível com base na experiência
     function updateLevel() {
         level = Math.floor(experience / 100) + 1;
     }
 
-    // Atualiza as estatísticas do jogador
     function updateStats() {
         document.getElementById("level").textContent = level;
         document.getElementById("experience").textContent = experience;
         document.getElementById("skills").textContent = level * 10;
     }
 
-    // Salva os dados no Firebase
     function saveData() {
-        set(ref(database, 'playerStats'), {
+        firebase.database().ref('playerStats').set({
             level: level,
             experience: experience,
             skills: level * 10,
@@ -222,11 +187,9 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-    // Carrega os dados do Firebase
     function loadData() {
-        const playerStatsRef = ref(database, 'playerStats');
-
-        get(playerStatsRef).then((snapshot) => {
+        const playerStatsRef = firebase.database().ref('playerStats');
+        playerStatsRef.once("value", function(snapshot) {
             if (snapshot.exists()) {
                 const data = snapshot.val();
                 level = data.level || 1;
@@ -237,11 +200,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 updateStats();
                 updateChallengesDisplay();
                 updateLearningsDisplay();
-            } else {
-                console.log("Nenhum dado encontrado.");
             }
-        }).catch((error) => {
-            console.error("Erro ao carregar dados: ", error);
         });
     }
 });
