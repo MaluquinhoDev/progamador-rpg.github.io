@@ -7,29 +7,10 @@
     <link rel="stylesheet" href="styles.css">
 
     <!-- Firebase App e Database SDKs -->
-    <script type="module">
-        import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js';
-        import { getDatabase, ref, set, get } from 'https://www.gstatic.com/firebasejs/9.0.0/firebase-database.js';
-
-        // Configuração do Firebase com as credenciais do seu projeto
-        const firebaseConfig = {
-          apiKey: "AIzaSyBhhS89kDMjrN-m4GqK2n1cXWyekw86-m4",
-          authDomain: "dev-rpg-cf6a2.firebaseapp.com",
-          databaseURL: "https://dev-rpg-cf6a2-default-rtdb.firebaseio.com",
-          projectId: "dev-rpg-cf6a2",
-          storageBucket: "dev-rpg-cf6a2.firebasestorage.app",
-          messagingSenderId: "5816364523",
-          appId: "1:5816364523:web:fce8fb68fecbaa2177fdae",
-          measurementId: "G-5ZR7SV9357"
-        };
-
-        // Inicializa o Firebase
-        const app = initializeApp(firebaseConfig);
-        const database = getDatabase(app);
-    </script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.0/firebase-database.js"></script>
 </head>
 <body>
-    <!-- Seu conteúdo HTML -->
     <div class="container">
         <h1>RPG de Programador</h1>
 
@@ -68,13 +49,11 @@
             <ul id="learningsList"></ul>
         </section>
 
-        <!-- Container de alertas -->
         <div id="alert-container" style="display:none;">
             <p id="alert-message"></p>
             <button id="close-btn">Fechar</button>
         </div>
 
-        <!-- Scripts -->
         <script type="module" src="script.js"></script>
     </div>
 </body>
