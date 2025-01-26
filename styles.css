@@ -1,3 +1,4 @@
+/* Mantém o estilo base para todos os elementos */
 * {
     margin: 0;
     padding: 0;
@@ -25,6 +26,7 @@ h1, h2 {
     margin-bottom: 20px;
 }
 
+/* Seções */
 .stats, .add-challenge, .display-challenges, .add-learning, .display-learnings {
     margin-bottom: 30px;
     padding: 10px;
@@ -32,6 +34,7 @@ h1, h2 {
     border-radius: 5px;
 }
 
+/* Estilo das estatísticas */
 .stat {
     display: flex;
     justify-content: space-between;
@@ -39,6 +42,7 @@ h1, h2 {
     font-size: 18px;
 }
 
+/* Inputs */
 input[type="text"] {
     width: 100%;
     margin-top: 5px;
@@ -48,6 +52,7 @@ input[type="text"] {
     border-radius: 5px;
 }
 
+/* Botões */
 button {
     padding: 10px 15px;
     background-color: #27ae60;
@@ -62,6 +67,7 @@ button:hover {
     background-color: #219653;
 }
 
+/* Lista de itens */
 ul {
     list-style-type: none;
     padding: 0;
@@ -75,6 +81,7 @@ li {
     border-radius: 5px;
 }
 
+/* Texto limitado */
 .text {
     display: -webkit-box;
     -webkit-box-orient: vertical;
@@ -82,8 +89,10 @@ li {
     overflow: hidden;
     text-overflow: ellipsis;
     margin-bottom: 10px;
+    transition: max-height 0.3s ease; /* Animação suave */
 }
 
+/* Botão Mostrar mais/menos */
 .toggle-btn {
     background-color: #3498db;
     color: white;
@@ -98,6 +107,7 @@ li {
     background-color: #2980b9;
 }
 
+/* Alertas */
 .alert-container {
     display: none;
     position: fixed;
