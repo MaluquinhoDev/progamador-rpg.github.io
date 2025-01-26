@@ -1,6 +1,6 @@
-// Importando as funções necessárias do SDK do Firebase
-import { initializeApp } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js";
-import { getDatabase, ref, set, get } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-database.js";
+// Importação do Firebase via CDN
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js';
+import { getDatabase, ref, set, get } from 'https://www.gstatic.com/firebasejs/9.0.0/firebase-database.js';
 
 // Configuração do Firebase com as credenciais do seu projeto
 const firebaseConfig = {
@@ -14,7 +14,7 @@ const firebaseConfig = {
   measurementId: "G-5ZR7SV9357"
 };
 
-// Inicializa o Firebase com a configuração
+// Inicializa o Firebase
 const app = initializeApp(firebaseConfig);
 const database = getDatabase(app);
 
@@ -195,72 +195,53 @@ document.addEventListener("DOMContentLoaded", function () {
     // Atualiza a experiência e o nível
     function gainExperience(xp) {
         experience += xp;
-        updateExperienceAndLevel();
-        saveData(); // Salva os dados no Firebase
+        updateLevel();
+        updateStats();
     }
 
-    function updateExperienceAndLevel() {
+    // Atualiza o nível com base na experiência
+    function updateLevel() {
+        level = Math.floor(experience / 100) + 1;
+    }
+
+    // Atualiza as estatísticas do jogador
+    function updateStats() {
+        document.getElementById("level").textContent = level;
         document.getElementById("experience").textContent = experience;
-
-        while (experience >= level * 100) {
-            levelUp();
-        }
-        document.getElementById("level").textContent = level;
+        document.getElementById("skills").textContent = level * 10;
     }
 
-    function levelUp() {
-        level++;
-        document.getElementById("level").textContent = level;
-
-        showAlert(`Parabéns! Você subiu para o nível ${level}`);
-    }
-
-    function showAlert(message) {
-        const alertContainer = document.getElementById('alert-container');
-        const alertMessage = document.getElementById('alert-message');
-
-        alertMessage.textContent = message;
-        alertContainer.style.display = 'block';
-
-        setTimeout(() => {
-            hideAlert();
-        }, 5000);
-    }
-
-    function hideAlert() {
-        const alertContainer = document.getElementById('alert-container');
-        alertContainer.style.display = 'none';
-    }
-
-    document.getElementById('close-btn').addEventListener('click', hideAlert);
-
-    // Função para salvar dados no Firebase
+    // Salva os dados no Firebase
     function saveData() {
-        set(ref(database, 'userData'), {
-            challenges: challenges,
-            learnings: learnings,
+        set(ref(database, 'playerStats'), {
+            level: level,
             experience: experience,
-            level: level
+            skills: level * 10,
+            challenges: challenges,
+            learnings: learnings
         });
     }
 
-    // Função para carregar dados do Firebase
+    // Carrega os dados do Firebase
     function loadData() {
-        const dataRef = ref(database, 'userData');
-        get(dataRef).then((snapshot) => {
+        const playerStatsRef = ref(database, 'playerStats');
+
+        get(playerStatsRef).then((snapshot) => {
             if (snapshot.exists()) {
                 const data = snapshot.val();
+                level = data.level || 1;
+                experience = data.experience || 0;
                 challenges = data.challenges || [];
                 learnings = data.learnings || [];
-                experience = data.experience || 0;
-                level = data.level || 1;
 
+                updateStats();
                 updateChallengesDisplay();
                 updateLearningsDisplay();
-                updateExperienceAndLevel();
+            } else {
+                console.log("Nenhum dado encontrado.");
             }
         }).catch((error) => {
-            console.error("Erro ao carregar dados do Firebase: ", error);
+            console.error("Erro ao carregar dados: ", error);
         });
     }
 });
