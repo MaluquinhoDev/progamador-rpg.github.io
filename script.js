@@ -1,4 +1,4 @@
-// Importar os módulos necessários do Firebase v9
+// Importando os módulos necessários do Firebase
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.1.0/firebase-app.js";
 import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/9.1.0/firebase-database.js";
 
@@ -14,7 +14,7 @@ const firebaseConfig = {
     measurementId: "G-5ZR7SV9357"
 };
 
-// Inicializando o Firebase com a configuração fornecida
+// Inicializando o Firebase
 const app = initializeApp(firebaseConfig);
 const database = getDatabase(app);
 
