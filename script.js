@@ -1,6 +1,6 @@
 // Importando as funções necessárias do SDK do Firebase
-import { initializeApp } from "firebase/app";
-import { getDatabase, ref, set, get } from "firebase/database";
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-app.js";
+import { getDatabase, ref, set, get } from "https://www.gstatic.com/firebasejs/9.0.0/firebase-database.js";
 
 // Configuração do Firebase com as credenciais do seu projeto
 const firebaseConfig = {
