@@ -1,4 +1,6 @@
-// Configuração do Firebase com as credenciais do seu projeto
+import { initializeApp } from "https://www.gstatic.com/firebasejs/9.1.0/firebase-app.js";
+import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/9.1.0/firebase-database.js";
+
 const firebaseConfig = {
     apiKey: "AIzaSyBhhS89kDMjrN-m4GqK2n1cXWyekw86-m4",
     authDomain: "dev-rpg-cf6a2.firebaseapp.com",
@@ -10,9 +12,9 @@ const firebaseConfig = {
     measurementId: "G-5ZR7SV9357"
 };
 
-// Inicializando Firebase
-firebase.initializeApp(firebaseConfig);
-const database = firebase.database();
+// Inicializando o Firebase
+const app = initializeApp(firebaseConfig);
+const database = getDatabase(app);
 
 document.addEventListener("DOMContentLoaded", function () {
     const addLearningBtn = document.getElementById("addLearningBtn");
@@ -77,7 +79,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Salvar dados no Firebase
     function saveData() {
-        firebase.database().ref('playerStats').set({
+        set(ref(database, 'playerStats'), {
             level: level,
             experience: experience
         });
