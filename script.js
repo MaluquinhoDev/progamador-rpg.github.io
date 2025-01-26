@@ -1,3 +1,4 @@
+// Importar os módulos necessários do Firebase v9
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.1.0/firebase-app.js";
 import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/9.1.0/firebase-database.js";
 
@@ -80,7 +81,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Salvar dados no Firebase
     function saveData() {
-        set(ref(database, 'playerStats'), {
+        const statsRef = ref(database, 'playerStats');
+        set(statsRef, {
             level: level,
             experience: experience
         });
