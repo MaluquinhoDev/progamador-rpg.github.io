@@ -37,96 +37,20 @@ document.addEventListener("DOMContentLoaded", function () {
             return;
         }
 
-        challenges.push({ description: description, completed: false });
+        // Agora, os desafios serão adicionados diretamente ao sistema de aprendizados
+        learnings.push({ description: description, type: 'challenge', completed: false });
         document.getElementById("challengeDescription").value = ''; 
         saveData();
-        updateChallengesDisplay();
+        updateLearningsDisplay(); // Atualiza a exibição
     });
 
-    // Função para atualizar a exibição dos desafios
-    function updateChallengesDisplay() {
-        if (!challengesList) return;
-        challengesList.innerHTML = '';
-
-        if (challenges.length === 0) {
-            challengeMessage.textContent = "Nenhum desafio adicionado.";
-        } else {
-            challengeMessage.textContent = "";
-            challenges.forEach(function (challenge, index) {
-                const newChallenge = document.createElement("li");
-
-                const newText = document.createElement("p");
-                newText.classList.add("text");
-                newText.id = `challenge-text-${index}`;
-                newText.style.maxHeight = "100px"; // Limite inicial para a altura da caixa
-                newText.style.overflow = "hidden"; // Esconde o excesso
-                newText.textContent = challenge.description;
-                newChallenge.appendChild(newText);
-
-                const toggleBtn = document.createElement("button");
-                toggleBtn.classList.add("toggle-btn");
-                toggleBtn.textContent = "Mostrar mais";
-                toggleBtn.onclick = function () {
-                    toggleText(newText, toggleBtn);
-                };
-
-                newChallenge.appendChild(toggleBtn);
-
-                if (!challenge.completed) {
-                    const completeBtn = document.createElement("button");
-                    completeBtn.textContent = "Concluir";
-                    completeBtn.addEventListener("click", function () {
-                        markChallengeAsCompleted(index, newChallenge, completeBtn);
-                    });
-                    newChallenge.appendChild(completeBtn);
-                } else {
-                    const completedMessage = document.createElement("span");
-                    completedMessage.textContent = " - Desafio concluído!";
-                    completedMessage.style.color = "green";
-                    newChallenge.appendChild(completedMessage);
-                }
-
-                challengesList.appendChild(newChallenge);
-            });
-        }
-    }
-
-    function markChallengeAsCompleted(index, challengeElement, completeBtn) {
-        if (!challenges[index].completed) {
-            challenges[index].completed = true;
-            challengeElement.removeChild(completeBtn);
-
-            const completedMessage = document.createElement("span");
-            completedMessage.textContent = " - Desafio concluído!";
-            completedMessage.style.color = "green";
-            challengeElement.appendChild(completedMessage);
-
-            gainExperience(20);
-            saveData();
-        }
-    }
-
-    // Adicionar Aprendizado
-    addLearningBtn.addEventListener("click", function () {
-        const description = document.getElementById("learningDescription").value;
-
-        if (description.trim() === "") {
-            return;
-        }
-
-        learnings.push(description);
-        document.getElementById("learningDescription").value = '';
-        updateLearningsDisplay();
-        gainExperience(10);
-        saveData();
-    });
-
+    // Função para atualizar a exibição dos aprendizados
     function updateLearningsDisplay() {
         if (!learningsList) return;
         learningsList.innerHTML = '';
 
         if (learnings.length === 0) {
-            learningMessage.textContent = "Nenhum aprendizado adicionado.";
+            learningMessage.textContent = "Nenhum aprendizado ou desafio adicionado.";
         } else {
             learningMessage.textContent = "";
             learnings.forEach(function (learning, index) {
@@ -137,9 +61,10 @@ document.addEventListener("DOMContentLoaded", function () {
                 newText.id = `learning-text-${index}`;
                 newText.style.maxHeight = "100px"; // Limite inicial para a altura da caixa
                 newText.style.overflow = "hidden"; // Esconde o excesso
-                newText.textContent = learning;
+                newText.textContent = learning.description;
                 newLearning.appendChild(newText);
 
+                // Botão "Mostrar Mais" ou "Mostrar Menos"
                 const toggleBtn = document.createElement("button");
                 toggleBtn.classList.add("toggle-btn");
                 toggleBtn.textContent = "Mostrar mais";
@@ -148,8 +73,42 @@ document.addEventListener("DOMContentLoaded", function () {
                 };
 
                 newLearning.appendChild(toggleBtn);
+
+                // Se for um desafio, adicionar botão "Concluir"
+                if (learning.type === 'challenge') {
+                    if (!learning.completed) {
+                        const completeBtn = document.createElement("button");
+                        completeBtn.textContent = "Concluir";
+                        completeBtn.addEventListener("click", function () {
+                            markLearningAsCompleted(index, newLearning, completeBtn);
+                        });
+                        newLearning.appendChild(completeBtn);
+                    } else {
+                        const completedMessage = document.createElement("span");
+                        completedMessage.textContent = " - Desafio concluído!";
+                        completedMessage.style.color = "green";
+                        newLearning.appendChild(completedMessage);
+                    }
+                }
+
                 learningsList.appendChild(newLearning);
             });
+        }
+    }
+
+    // Função para marcar o aprendizado como "concluído"
+    function markLearningAsCompleted(index, learningElement, completeBtn) {
+        if (!learnings[index].completed) {
+            learnings[index].completed = true;
+            learningElement.removeChild(completeBtn);
+
+            const completedMessage = document.createElement("span");
+            completedMessage.textContent = " - Desafio concluído!";
+            completedMessage.style.color = "green";
+            learningElement.appendChild(completedMessage);
+
+            gainExperience(20); // Ganha experiência ao concluir o desafio
+            saveData();
         }
     }
 
@@ -203,8 +162,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 learnings = data.learnings || [];
 
                 updateStats();
-                updateChallengesDisplay();
-                updateLearningsDisplay();
+                updateLearningsDisplay(); // Atualiza a exibição de desafios e aprendizados
             }
         });
     }
