@@ -58,7 +58,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 const newText = document.createElement("p");
                 newText.classList.add("text");
                 newText.id = `challenge-text-${index}`;
-                newText.style.maxHeight = "100px"; // Limite de altura inicial
+                newText.style.maxHeight = "100px"; // Limite inicial para a altura da caixa
                 newText.style.overflow = "hidden"; // Esconde o excesso
                 newText.textContent = challenge.description;
                 newChallenge.appendChild(newText);
@@ -135,7 +135,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 const newText = document.createElement("p");
                 newText.classList.add("text");
                 newText.id = `learning-text-${index}`;
-                newText.style.maxHeight = "100px"; // Limite de altura inicial
+                newText.style.maxHeight = "100px"; // Limite inicial para a altura da caixa
                 newText.style.overflow = "hidden"; // Esconde o excesso
                 newText.textContent = learning;
                 newLearning.appendChild(newText);
