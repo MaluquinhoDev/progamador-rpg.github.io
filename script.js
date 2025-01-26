@@ -35,7 +35,27 @@ document.addEventListener("DOMContentLoaded", function () {
         experience += points;
 
         const li = document.createElement("li");
-        li.textContent = `${description} (+${points} XP)`;
+        
+        const text = document.createElement("div");
+        text.classList.add("text");
+        text.textContent = description;
+        li.appendChild(text);
+
+        const toggleBtn = document.createElement("button");
+        toggleBtn.classList.add("toggle-btn");
+        toggleBtn.textContent = "Mostrar mais";
+        
+        toggleBtn.addEventListener("click", function () {
+            if (text.classList.contains("expanded")) {
+                text.classList.remove("expanded");
+                toggleBtn.textContent = "Mostrar mais";
+            } else {
+                text.classList.add("expanded");
+                toggleBtn.textContent = "Mostrar menos";
+            }
+        });
+
+        li.appendChild(toggleBtn);
         learningsList.appendChild(li);
 
         learningDescription.value = "";
