@@ -1,20 +1,16 @@
-// Importando os módulos necessários do Firebase
 import { initializeApp } from "https://www.gstatic.com/firebasejs/9.1.0/firebase-app.js";
 import { getDatabase, ref, set } from "https://www.gstatic.com/firebasejs/9.1.0/firebase-database.js";
 
-// Configuração do Firebase
 const firebaseConfig = {
-    apiKey: "AIzaSyBhhS89kDMjrN-m4GqK2n1cXWyekw86-m4",
-    authDomain: "dev-rpg-cf6a2.firebaseapp.com",
-    databaseURL: "https://dev-rpg-cf6a2-default-rtdb.firebaseio.com",
-    projectId: "dev-rpg-cf6a2",
-    storageBucket: "dev-rpg-cf6a2.firebasestorage.app",
-    messagingSenderId: "5816364523",
-    appId: "1:5816364523:web:fce8fb68fecbaa2177fdae",
-    measurementId: "G-5ZR7SV9357"
+    apiKey: "SUA_API_KEY",
+    authDomain: "SEU_DOMINIO.firebaseapp.com",
+    databaseURL: "https://SEU_BANCO.firebaseio.com",
+    projectId: "SEU_PROJECT_ID",
+    storageBucket: "SEU_STORAGE_BUCKET.appspot.com",
+    messagingSenderId: "SEU_MESSAGING_SENDER_ID",
+    appId: "SEU_APP_ID"
 };
 
-// Inicializando o Firebase
 const app = initializeApp(firebaseConfig);
 const database = getDatabase(app);
 
@@ -27,7 +23,6 @@ document.addEventListener("DOMContentLoaded", function () {
     let level = 1;
     let experience = 0;
 
-    // Adicionar aprendizado
     addLearningBtn.addEventListener("click", () => {
         const description = learningDescription.value.trim();
 
@@ -52,13 +47,10 @@ document.addEventListener("DOMContentLoaded", function () {
         toggleBtn.textContent = "Mostrar mais";
 
         toggleBtn.addEventListener("click", function () {
-            if (text.classList.contains("expanded")) {
-                text.classList.remove("expanded");
-                toggleBtn.textContent = "Mostrar mais";
-            } else {
-                text.classList.add("expanded");
-                toggleBtn.textContent = "Mostrar menos";
-            }
+            text.classList.toggle("expanded");
+            toggleBtn.textContent = text.classList.contains("expanded")
+                ? "Mostrar menos"
+                : "Mostrar mais";
         });
 
         li.appendChild(toggleBtn);
@@ -72,19 +64,14 @@ document.addEventListener("DOMContentLoaded", function () {
         saveData();
     });
 
-    // Atualizar estatísticas
     function updateStats() {
         level = Math.floor(experience / 100) + 1;
         document.getElementById("level").textContent = level;
         document.getElementById("experience").textContent = experience;
     }
 
-    // Salvar dados no Firebase
     function saveData() {
         const statsRef = ref(database, 'playerStats');
-        set(statsRef, {
-            level: level,
-            experience: experience
-        });
+        set(statsRef, { level, experience });
     }
 });
