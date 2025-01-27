@@ -115,7 +115,9 @@ li {
 
 .text {
     display: block;
-    word-wrap: break-word; /* Quebra automaticamente as palavras longas */
+    word-wrap: break-word; /* Quebra palavras longas */
+    overflow-wrap: break-word; /* Quebra no final da linha */
+    max-width: 100%; /* Mantém o texto dentro da caixa azul */
     margin-bottom: 10px;
 }
 
